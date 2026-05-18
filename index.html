@@ -147,7 +147,7 @@
         <div class="max-w-6xl mx-auto fade-up">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <div class="w-full relative aspect-[3/4] md:aspect-[4/5] overflow-hidden rounded-sm shadow-2xl">
-                    <img src="me.jpeg" alt="RONNIE FILM STUDIO" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
+                    <img src="me.jpg" alt="RONNIE FILM STUDIO" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
                 </div>
 
                 <div class="space-y-6 text-left">
@@ -355,7 +355,7 @@
         }, observerOptions);
         document.querySelectorAll('.fade-up').forEach(element => observer.observe(element));
 
-        // Безопасная логика мобильного меню
+        // Мобильное меню
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
         if (btn && menu) {
@@ -363,7 +363,7 @@
             document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => menu.classList.add('hidden')));
         }
 
-        // Questionnaire Logic
+        // Логика пошагового квиза
         let currentStep = 1;
         const totalSteps = 7;
 
@@ -426,7 +426,7 @@
             });
         }
 
-        // Countdown Timer
+        // Таймер обратного отсчета
         let time = 24 * 60 * 60 - 1; 
         const timerElement = document.getElementById('countdown');
         if (timerElement) {
@@ -447,7 +447,7 @@
             const mapContainer = document.getElementById('interactive-map');
             if (!mapContainer) return;
 
-            // attributionControl: false — ПОЛНОСТЬЮ УБИРАЕТ СТРОКУ С ФЛАГАМИ И ССЫЛКАМИ С КАРТЫ
+            // attributionControl: false — ГАРАНТИРОВАННО УБИРАЕТ ВСЕ ССЫЛКИ И ФЛАГИ С КАРТЫ
             var map = L.map('interactive-map', {
                 center: [25.0, 0.0],
                 zoom: 2,
@@ -459,7 +459,7 @@
                 dragging: !L.Browser.mobile
             });
 
-            // В attribution передаем пустую строку, чтобы ничего не вшивалось в код
+            // Передаем пустую строку в attribution для полной очистки подложки
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
                 attribution: '',
                 subdomains: 'abcd',
@@ -468,6 +468,7 @@
                 noWrap: true
             }).addTo(map);
 
+            // Два типа иконок для переключения размеров через встроенный метод setIcon
             var defaultIcon = L.divIcon({
                 className: 'custom-map-dot',
                 iconSize: [12, 12],
@@ -480,6 +481,7 @@
                 iconAnchor: [7.5, 7.5]
             });
 
+            // Честный массив из 30 городов (20 старых + 5 новых в РФ + 5 новых по всему миру)
             var locations = [
                 { name: "Москва", coords: [55.7558, 37.6173] },
                 { name: "Санкт-Петербург", coords: [59.9343, 30.3351] },
@@ -502,12 +504,14 @@
                 { name: "Лондон", coords: [51.5074, -0.1278] },
                 { name: "Токио", coords: [35.6895, 139.6917] },
                 
+                // 5 новых городов по РФ
                 { name: "Новосибирск", coords: [55.0084, 82.9357] },
                 { name: "Красноярск", coords: [56.0153, 92.8932] },
                 { name: "Нижний Новгород", coords: [56.3269, 44.0059] },
                 { name: "Ростов-на-Дону", coords: [47.2357, 39.7015] },
                 { name: "Калининград", coords: [54.7104, 20.4522] },
                 
+                // 5 новых городов по миру
                 { name: "Нью-Йорк", coords: [40.7128, -74.0060] },
                 { name: "Лос-Анджелес", coords: [34.0522, -118.2437] },
                 { name: "Рио-де-Жанейро", coords: [-22.9068, -43.1729] },
@@ -526,19 +530,9 @@
                     offset: [0, -5]
                 });
 
+                // Плавное и безопасное изменение масштаба при наведении
                 marker.on('mouseover', function() { this.setIcon(hoverIcon); });
                 marker.on('mouseout', function() { this.setIcon(defaultIcon); });
-            });
-        });
-
-                // Скриптовые события интерактивности: плавно меняют иконку без сброса координат
-                marker.on('mouseover', function() {
-                    this.setIcon(hoverIcon);
-                });
-                
-                marker.on('mouseout', function() {
-                    this.setIcon(defaultIcon);
-                });
             });
         });
     </script>
