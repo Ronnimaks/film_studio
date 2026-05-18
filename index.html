@@ -442,12 +442,12 @@
             }, 1000);
         }
 
-        // ИНИЦИАЛИЗАЦИЯ ИСПРАВЛЕННОЙ ИНТЕРАКТИВНОЙ КАРТЫ LEAFLET
+        // ИНИЦИАЛИЗАЦИЯ ИСПРАВЛЕННОЙ И БЕЗОПАСНОЙ ИНТЕРАКТИВНОЙ КАРТЫ LEAFLET
         document.addEventListener('DOMContentLoaded', function() {
             const mapContainer = document.getElementById('interactive-map');
             if (!mapContainer) return;
 
-            // Центрирование мира по центру без искажений и пустых зон
+            // attributionControl: false — ПОЛНОСТЬЮ УБИРАЕТ СТРОКУ С ФЛАГАМИ И ССЫЛКАМИ С КАРТЫ
             var map = L.map('interactive-map', {
                 center: [25.0, 0.0],
                 zoom: 2,
@@ -455,10 +455,11 @@
                 maxZoom: 5,
                 scrollWheelZoom: false,
                 zoomControl: false,
+                attributionControl: false, 
                 dragging: !L.Browser.mobile
             });
 
-            // noWrap: true исключает дублирование карты по бокам
+            // В attribution передаем пустую строку, чтобы ничего не вшивалось в код
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
                 attribution: '',
                 subdomains: 'abcd',
@@ -467,7 +468,6 @@
                 noWrap: true
             }).addTo(map);
 
-            // Два разных объекта иконок для безопасного изменения размера через метод setIcon
             var defaultIcon = L.divIcon({
                 className: 'custom-map-dot',
                 iconSize: [12, 12],
@@ -480,9 +480,7 @@
                 iconAnchor: [7.5, 7.5]
             });
 
-            // Честный массив из 30 городов (20 старых + 5 новых в РФ + 5 новых по всему миру)
             var locations = [
-                // Изначальные 20 точек
                 { name: "Москва", coords: [55.7558, 37.6173] },
                 { name: "Санкт-Петербург", coords: [59.9343, 30.3351] },
                 { name: "Сочи", coords: [43.5853, 39.7203] },
@@ -504,14 +502,12 @@
                 { name: "Лондон", coords: [51.5074, -0.1278] },
                 { name: "Токио", coords: [35.6895, 139.6917] },
                 
-                // 5 Новых городов по России
                 { name: "Новосибирск", coords: [55.0084, 82.9357] },
                 { name: "Красноярск", coords: [56.0153, 92.8932] },
                 { name: "Нижний Новгород", coords: [56.3269, 44.0059] },
                 { name: "Ростов-на-Дону", coords: [47.2357, 39.7015] },
                 { name: "Калининград", coords: [54.7104, 20.4522] },
                 
-                // 5 Новых мировых локаций в пустых зонах (Америка, Африка, Австралия)
                 { name: "Нью-Йорк", coords: [40.7128, -74.0060] },
                 { name: "Лос-Анджелес", coords: [34.0522, -118.2437] },
                 { name: "Рио-де-Жанейро", coords: [-22.9068, -43.1729] },
@@ -529,6 +525,11 @@
                     opacity: 0.9,
                     offset: [0, -5]
                 });
+
+                marker.on('mouseover', function() { this.setIcon(hoverIcon); });
+                marker.on('mouseout', function() { this.setIcon(defaultIcon); });
+            });
+        });
 
                 // Скриптовые события интерактивности: плавно меняют иконку без сброса координат
                 marker.on('mouseover', function() {
