@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RONNIE FILM STUDIO | Продакшн полного цикла</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'sans-serif'], },
+                    colors: {
+                        'brand-black': '#111111',
+                        'brand-dark': '#1a1a1a',
+                        'netflix-red': '#E50914',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #111111; color: #ffffff; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #E50914; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b20710; }
+
+        .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        .step { display: none; opacity: 0; transition: opacity 0.3s ease; }
+        .step.active { display: block; opacity: 1; }
+
+        .portfolio-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle, rgba(0,0,0,0) 20%, rgba(0,0,0,0.9) 100%);
+            opacity: 0.5;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        .portfolio-item:hover::after { opacity: 0.8; }
+        .portfolio-item video { transition: filter 0.5s ease; }
+        .portfolio-item:hover video { filter: blur(3px) brightness(0.5); }
+        .portfolio-title { opacity: 0; transition: all 0.5s ease; transform: translateY(10px); }
+        .portfolio-item:hover .portfolio-title { opacity: 1; transform: translateY(0); }
+
+        .scratch-area { background: repeating-linear-gradient(45deg, #333, #333 10px, #444 10px, #444 20px); cursor: pointer; }
+        .scratch-area.revealed { background: transparent; pointer-events: none; }
+        .scratch-area.revealed span { display: none; }
+
+        /* Маркеры карты */
+        .custom-map-dot {
+            background-color: #E50914;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #E50914, 0 0 20px #E50914;
+            border: 2px solid #1a1a1a;
+            transition: all 0.3s ease;
+        }
+        .custom-map-dot:hover {
+            background-color: #ffffff;
+            box-shadow: 0 0 15px #ffffff;
+            transform: scale(1.5) !important;
+            z-index: 1000 !important;
+        }
+        .leaflet-container { outline: 0 !important; }
+    </style>
+</head>
+<body class="antialiased selection:bg-netflix-red selection:text-white">
+
+    <header class="bg-brand-black w-full z-50 border-b border-white/5 sticky top-0">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center cursor-pointer">
+                    <a href="#" class="flex flex-col leading-none">
+                        <span class="text-xl md:text-2xl font-black tracking-widest uppercase">RONNIE</span>
+                        <span class="text-[10px] md:text-xs font-medium text-netflix-red tracking-[0.3em] uppercase mt-1">FILM STUDIO</span>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex space-x-10 items-center h-full">
+                    <a href="#about" class="text-xs uppercase tracking-[0.15em] font-medium text-gray-300 hover:text-white transition-colors h-full flex items-center">Обо мне</a>
+                    <a href="#portfolio" class="text-xs uppercase tracking-[0.15em] font-medium text-gray-300 hover:text-white transition-colors h-full flex items-center">Портфолио</a>
+                    <a href="#calculator" class="text-xs uppercase tracking-[0.15em] font-bold text-netflix-red hover:text-white transition-colors flex items-center gap-2 h-full">
+                        <i class="fa-solid fa-calculator"></i> Рассчитать стоимость
+                    </a>
+                    <a href="#contact" class="text-xs uppercase tracking-[0.15em] font-medium text-gray-300 hover:text-white transition-colors h-full flex items-center">Контакты</a>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden bg-brand-black border-t border-white/10">
+            <div class="px-2 pt-2 pb-6 space-y-1 sm:px-3 text-center flex flex-col gap-2">
+                <a href="#about" class="block px-3 py-4 text-sm font-medium uppercase tracking-[0.2em] text-gray-300 hover:text-white mobile-link">Обо мне</a>
+                <a href="#portfolio" class="block px-3 py-4 text-sm font-medium uppercase tracking-[0.2em] text-gray-300 hover:text-white mobile-link">Портфолио</a>
+                <a href="#calculator" class="block px-3 py-4 text-sm font-bold uppercase tracking-[0.2em] text-netflix-red hover:text-white mobile-link">Рассчитать стоимость</a>
+                <a href="#contact" class="block px-3 py-4 text-sm font-medium uppercase tracking-[0.2em] text-gray-300 hover:text-white mobile-link">Контакты</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="w-full h-[50vh] md:h-[70vh] bg-black overflow-hidden relative">
+        <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-70">
+            <source src="video/hero.mp4" type="video/mp4">
+        </video>
+    </section>
+
+    <section id="contact" class="pt-16 pb-16 px-4 bg-brand-dark scroll-mt-20">
+        <div class="max-w-4xl mx-auto text-center fade-up">
+            <h1 class="text-xs md:text-sm uppercase tracking-[0.4em] mb-6 text-netflix-red font-bold">Продакшн полного цикла</h1>
+            <p class="text-xl md:text-2xl font-light leading-relaxed text-gray-200 mb-8">Создаём видео, которые хочется смотреть как кино.</p>
+            <p class="text-sm md:text-base font-light leading-relaxed text-gray-400 max-w-3xl mx-auto mb-10">
+                Для того, чтобы забронировать дату для съемки или задать любой интересующий вас вопрос, вы можете написать нам, позвонить или отправить письмо на электронную почту <a href="mailto:Ronnimaks@yandex.ru" class="text-white hover:text-netflix-red transition-colors font-medium border-b border-white/20 pb-0.5">Ronnimaks@yandex.ru</a>
+            </p>
+            
+            <div class="flex flex-col gap-4 max-w-[400px] mx-auto mt-12">
+                <a href="https://web.max.ru/-74806356637039" target="_blank" class="flex items-center justify-center gap-4 w-full py-4 rounded-full border border-gray-600 hover:border-white hover:bg-white text-white hover:text-black transition-all duration-300 group">
+                    <svg width="24" height="24" viewBox="0 0 512 512" fill="currentColor" class="w-6 h-6 text-white group-hover:text-black transition-colors flex-shrink-0">
+                        <path d="M256,0 C114.6,0 0,114.6 0,256 C0,314.5 19.6,368.4 52.8,411.6 L34.2,492.4 L117.6,475.2 C158.4,498.4 205.5,512 256,512 C397.4,512 512,397.4 512,256 C512,114.6 397.4,0 256,0 Z M256,384 C185.3,384 128,326.7 128,256 C128,185.3 185.3,128 256,128 C326.7,128 384,185.3 384,256 C384,326.7 326.7,384 256,384 Z"/>
+                    </svg>
+                    <span class="text-sm font-bold tracking-widest uppercase">MAX</span>
+                </a>
+                
+                <a href="https://t.me/ronnimaks" target="_blank" class="flex items-center justify-center gap-4 w-full py-4 rounded-full border border-gray-600 hover:border-white hover:bg-white text-white hover:text-black transition-all duration-300">
+                    <i class="fa-brands fa-telegram text-lg"></i>
+                    <span class="text-sm font-bold tracking-widest uppercase">Telegram</span>
+                </a>
+                
+                <a href="tel:+79961260245" class="flex items-center justify-center gap-4 w-full py-4 rounded-full border border-gray-600 hover:border-white hover:bg-white text-white hover:text-black transition-all duration-300">
+                    <i class="fa-solid fa-phone text-md"></i>
+                    <span class="text-sm font-bold tracking-widest uppercase">+7 (996) 126 02 45</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="pb-24 pt-4 px-4 bg-brand-dark border-b border-white/5 scroll-mt-20">
+        <div class="max-w-6xl mx-auto fade-up">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div class="w-full relative aspect-[3/4] md:aspect-[4/5] overflow-hidden rounded-sm shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="RONNIE FILM STUDIO" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
+                </div>
+
+                <div class="space-y-6 text-left">
+                    <div class="mb-6">
+                        <h2 class="text-2xl md:text-3xl font-extrabold uppercase tracking-[0.2em] text-white">Обо мне</h2>
+                        <div class="w-12 h-[2px] bg-netflix-red mt-4"></div>
+                    </div>
+                    <p class="text-gray-300 text-base md:text-lg font-light leading-relaxed">Меня зовут <span class="font-bold text-white">Ронни Макс</span>, и я живу видеопроизводством уже более 10 лет. За это время я объединил вокруг себя сильную команду единомышленников — настоящих профессионалов, готовых воплотить в жизнь проект абсолютно любого масштаба.</p>
+                    <p class="text-gray-300 text-base md:text-lg font-light leading-relaxed">Мы закрываем проекты любой сложности. Нужно снять кинематографичную картинку уровня <span class="text-netflix-red font-black text-xl md:text-2xl tracking-widest inline-block">NETFLIX</span>? Сделаем. Снять масштабное событие в 10 камер? У нас есть всё необходимое оборудование и опыт.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="calculator" class="py-24 px-4 bg-brand-black border-b border-netflix-red/30 relative overflow-hidden scroll-mt-20">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-netflix-red/5 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div class="max-w-3xl mx-auto fade-up relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-extrabold uppercase tracking-[0.2em] text-white">Рассчитать стоимость</h2>
+                <p class="text-gray-400 mt-4 font-light">Ответьте на несколько простых вопросов за 5 минут, и получите индивидуальное коммерческое предложение и смету на почту.</p>
+            </div>
+
+            <div class="bg-[#111] p-8 md:p-12 rounded-sm border border-white/10 shadow-2xl">
+                <form id="quizForm" onsubmit="submitQuiz(event)">
+                    <div class="w-full bg-gray-800 h-1 mb-8 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="bg-netflix-red h-full w-[14%] transition-all duration-300"></div>
+                    </div>
+                    
+                    <div class="step active" id="step1">
+                        <h3 class="text-xl font-medium mb-6 text-white">1. Что планируется снять?</h3>
+                        <input type="text" name="project_type" class="w-full bg-transparent border-b border-gray-600 focus:border-netflix-red text-white py-3 outline-none transition-colors mb-8" placeholder="Опишите вашу задачу..." required>
+                        <button type="button" onclick="nextStep(1)" class="bg-white text-black px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">Далее <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                    </div>
+                    <div class="step" id="step2">
+                        <h3 class="text-xl font-medium mb-6 text-white">2. Где будет проходить съёмка?</h3>
+                        <input type="text" name="location" class="w-full bg-transparent border-b border-gray-600 focus:border-netflix-red text-white py-3 outline-none transition-colors mb-8" placeholder="Например: Москва..." required>
+                        <div class="flex gap-4">
+                            <button type="button" onclick="prevStep(2)" class="border border-white/20 text-white px-6 py-3 text-sm font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">Назад</button>
+                            <button type="button" onclick="nextStep(2)" class="bg-white text-black px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">Далее</button>
+                        </div>
+                    </div>
+                    <div class="step" id="step3">
+                        <h3 class="text-xl font-medium mb-6 text-white">3. Когда планируется съёмка?</h3>
+                        <input type="text" name="date" class="w-full bg-transparent border-b border-gray-600 focus:border-netflix-red text-white py-3 outline-none transition-colors mb-8" placeholder="Например: В середине июля..." required>
+                        <div class="flex gap-4">
+                            <button type="button" onclick="prevStep(3)" class="border border-white/20 text-white px-6 py-3 text-sm font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">Назад</button>
+                            <button type="button" onclick="nextStep(3)" class="bg-white text-black px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">Далее</button>
+                        </div>
+                    </div>
+                    <div class="step" id="step4">
+                        <h3 class="text-xl font-medium mb-6 text-white">4. Сколько человек будет участвовать?</h3>
+                        <input type="text" name="people" class="w-full bg-transparent border-b border-gray-600 focus:border-netflix-red text-white py-3 outline-none transition-colors mb-8" placeholder="Например: 1 спикер и 2 гостя..." required>
+                        <div class="flex gap-4">
+                            <button type="button" onclick="prevStep(4)" class="border border-white/20 text-white px-6 py-3 text-sm font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">Назад</button>
+                            <button type="button" onclick="nextStep(4)" class="bg-white text-black px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">Далее</button>
+                        </div>
+                    </div>
+                    <div class="step" id="step5">
+                        <h3 class="text-xl font-medium mb-6 text-white">5. Какой результат нужен?</h3>
+                        <input type="text" name="goal" class="w-full bg-transparent border-b border-gray-600 focus:border-netflix-red text-white py-3 outline-none transition-colors mb-8" placeholder="Например: Повысить лояльность..." required>
+                        <div class="flex gap-4">
+                            <button type="button" onclick="prevStep(5)" class="border border-white/20 text-white px-6 py-3 text-sm font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">Назад</button>
+                            <button type="button" onclick="nextStep(5)" class="bg-white text-black px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">Далее</button>
+                        </div>
+                    </div>
+                    <div class="step" id="step6">
+                        <h3 class="text-xl font-medium mb-6 text-white">6. Нужен ли монтаж / клипы / Reels?</h3>
+                        <input type="text" name="addons" class="w-full bg-transparent border-b border-gray-600 focus:border-netflix-red text-white py-3 outline-none transition-colors mb-8" placeholder="Например: Да, монтаж + 3 Reels..." required>
+                        <div class="flex gap-4">
+                            <button type="button" onclick="prevStep(6)" class="border border-white/20 text-white px-6 py-3 text-sm font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">Назад</button>
+                            <button type="button" onclick="nextStep(6)" class="bg-white text-black px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">Далее</button>
+                        </div>
+                    </div>
+                    <div class="step" id="step7">
+                        <h3 class="text-xl font-medium mb-6 text-white">7. Куда отправить расчёт?</h3>
+                        <input type="email" name="email" class="w-full bg-transparent border-b border-gray-600 focus:border-netflix-red text-white py-3 outline-none transition-colors mb-8" placeholder="Ваша почта..." required>
+                        <div class="flex gap-4">
+                            <button type="button" onclick="prevStep(7)" class="border border-white/20 text-white px-6 py-3 text-sm font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">Назад</button>
+                            <button type="submit" id="submitBtn" class="bg-netflix-red text-white px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-red-800 transition-colors flex-grow text-center">Получить расчёт ✨</button>
+                        </div>
+                    </div>
+                    <div class="step text-center py-10" id="step-success">
+                        <i class="fa-solid fa-circle-check text-4xl text-green-500 mb-4"></i>
+                        <h3 class="text-2xl font-bold text-white mb-2">Бриф успешно отправлен!</h3>
+                        <p class="text-gray-400 font-light">В данный момент мы анализируем запрос и формируем коммерческое предложение. Ожидайте письмо на почту.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-4 bg-[#141414]">
+        <div class="max-w-4xl mx-auto text-center fade-up">
+            <p class="text-lg md:text-xl font-light leading-relaxed text-gray-300 italic border-l-2 border-netflix-red pl-6 py-2 mx-auto inline-block text-left">
+                “Мы можем много рассказывать о нашем опыте, но лучше всего за нас говорит портфолио, с видео примерами наших работ вы можете ознакомиться ниже:”
+            </p>
+        </div>
+    </section>
+
+    <section id="portfolio" class="pb-32 px-4 bg-[#141414] scroll-mt-20">
+        <div class="max-w-5xl mx-auto space-y-16">
+            <div class="portfolio-item relative w-full aspect-video bg-black rounded-sm overflow-hidden shadow-2xl cursor-pointer fade-up group">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                    <source src="video/events.mp4" type="video/mp4">
+                </video>
+                <div class="portfolio-title absolute inset-0 flex items-center justify-center z-10">
+                    <h3 class="text-3xl md:text-5xl font-black uppercase tracking-[0.2em] text-white drop-shadow-2xl">Мероприятия</h3>
+                </div>
+            </div>
+
+            <div class="portfolio-item relative w-full aspect-video bg-black rounded-sm overflow-hidden shadow-2xl cursor-pointer fade-up group">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                    <source src="video/wedding.mp4" type="video/mp4">
+                </video>
+                <div class="portfolio-title absolute inset-0 flex items-center justify-center z-10">
+                    <h3 class="text-3xl md:text-5xl font-black uppercase tracking-[0.2em] text-white drop-shadow-2xl">Свадьбы</h3>
+                </div>
+            </div>
+
+            <div class="portfolio-item relative w-full aspect-video bg-black rounded-sm overflow-hidden shadow-2xl cursor-pointer fade-up group">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                    <source src="video/promo.mp4" type="video/mp4">
+                </video>
+                <div class="portfolio-title absolute inset-0 flex items-center justify-center z-10">
+                    <h3 class="text-3xl md:text-5xl font-black uppercase tracking-[0.2em] text-white drop-shadow-2xl">Реклама</h3>
+                </div>
+            </div>
+
+            <div class="portfolio-item relative w-full aspect-video bg-black rounded-sm overflow-hidden shadow-2xl cursor-pointer fade-up group">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                    <source src="video/music.mp4" type="video/mp4">
+                </video>
+                <div class="portfolio-title absolute inset-0 flex items-center justify-center z-10">
+                    <h3 class="text-3xl md:text-5xl font-black uppercase tracking-[0.2em] text-white drop-shadow-2xl">Музыкальные клипы</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="geography" class="py-24 px-4 bg-brand-dark border-t border-b border-white/5 relative z-10">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-2xl md:text-3xl font-extrabold uppercase tracking-[0.2em] mb-6 text-white fade-up">География съёмок</h2>
+            <p class="text-base md:text-lg font-light text-gray-400 leading-relaxed max-w-3xl mx-auto mb-12 fade-up">
+                Мы базируемся в <span class="text-white font-medium border-b border-netflix-red/50">Москве</span> and <span class="text-white font-medium border-b border-netflix-red/50">Санкт-Петербурге</span>. География наших съёмок постоянно расширяется и на данный момент насчитывает уже <span class="text-netflix-red font-bold text-xl">30+ городов</span>.
+            </p>
+            
+            <div class="relative w-full max-w-5xl mx-auto h-[350px] md:h-[500px] rounded-sm overflow-hidden shadow-2xl border border-white/10 fade-up">
+                <div id="interactive-map" class="w-full h-full bg-[#111111]"></div>
+                <div class="absolute inset-0 pointer-events-none shadow-[inset_0_0_100px_rgba(26,26,26,1)] z-[1000]"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#0a0a0a] pt-16 pb-8 border-t border-netflix-red/30">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+            <h2 class="text-2xl font-bold uppercase tracking-[0.1em] text-white mb-2">Забронируйте съёмку прямо сейчас</h2>
+            <p class="text-netflix-red text-sm font-medium uppercase tracking-widest mb-8">Получите промокод со скидкой 5%</p>
+
+            <div class="bg-[#1a1a1a] p-6 rounded-sm border border-white/10 inline-block mb-6 shadow-xl relative overflow-hidden">
+                <p class="text-xs text-gray-400 mb-3 uppercase tracking-wider">Назовите этот промокод при бронировании</p>
+                <div class="relative w-48 mx-auto h-12 flex items-center justify-center bg-black rounded-sm overflow-hidden select-none">
+                    <span class="text-xl font-bold text-white tracking-[0.3em] z-0">FILM01</span>
+                    <div class="scratch-area absolute inset-0 z-10 flex items-center justify-center text-[10px] text-white/50 uppercase tracking-widest font-bold" onclick="this.classList.add('revealed')">
+                        <span>Нажми, чтобы открыть</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center items-center gap-4 mb-16 text-gray-500">
+                <i class="fa-regular fa-clock"></i>
+                <span class="text-sm uppercase tracking-widest">Действует: <span id="countdown" class="text-white font-mono ml-2">23:59:59</span></span>
+            </div>
+
+            <div class="flex justify-center items-center gap-6 mb-12">
+                <a href="tel:+79961260245" class="text-gray-500 hover:text-black border border-transparent hover:border-white hover:bg-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-300">
+                    <i class="fa-solid fa-phone text-xl leading-none"></i>
+                </a>
+                <a href="https://t.me/ronnimaks" class="text-gray-500 hover:text-black border border-transparent hover:border-white hover:bg-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-300">
+                    <i class="fa-brands fa-telegram text-2xl leading-none"></i>
+                </a>
+                <a href="https://web.max.ru/-74806356637039" class="text-gray-500 hover:text-black border border-transparent hover:border-white hover:bg-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-300 group">
+                    <svg width="24" height="24" viewBox="0 0 512 512" fill="currentColor" class="w-6 h-6 text-gray-500 group-hover:text-black transition-colors flex-shrink-0">
+                        <path d="M256,0 C114.6,0 0,114.6 0,256 C0,314.5 19.6,368.4 52.8,411.6 L34.2,492.4 L117.6,475.2 C158.4,498.4 205.5,512 256,512 C397.4,512 512,397.4 512,256 C512,114.6 397.4,0 256,0 Z M256,384 C185.3,384 128,326.7 128,256 C128,185.3 185.3,128 256,128 C326.7,128 384,185.3 384,256 C384,326.7 326.7,384 256,384 Z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="font-medium tracking-[0.2em] uppercase text-[10px] text-gray-700">
+                &copy; RONNIE FILM STUDIO 2026.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animations Observer
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.fade-up').forEach(element => observer.observe(element));
+
+        // Безопасная логика мобильного меню (защищено от краша скрипта)
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+            document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => menu.classList.add('hidden')));
+        }
+
+        // Questionnaire Logic
+        let currentStep = 1;
+        const totalSteps = 7;
+
+        function nextStep(step) {
+            const currentInput = document.querySelector(`#step${step} input`);
+            if (currentInput && currentInput.value.trim() === '') {
+                currentInput.focus();
+                currentInput.style.borderColor = '#E50914';
+                return;
+            }
+            document.getElementById(`step${step}`).classList.remove('active');
+            document.getElementById(`step${step + 1}`).classList.add('active');
+            document.getElementById('progress-bar').style.width = `${((step + 1) / totalSteps) * 100}%`;
+        }
+
+        function prevStep(step) {
+            document.getElementById(`step${step}`).classList.remove('active');
+            document.getElementById(`step${step - 1}`).classList.add('active');
+            document.getElementById('progress-bar').style.width = `${((step - 1) / totalSteps) * 100}%`;
+        }
+
+        function submitQuiz(e) {
+            e.preventDefault();
+            const form = document.getElementById('quizForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerHTML = 'Отправка... <i class="fa-solid fa-circle-notch fa-spin ml-2"></i>';
+            submitBtn.disabled = true;
+
+            fetch("https://formsubmit.co/ajax/Ronnimaks@yandex.ru", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    "Форма": "Новый расчет стоимости",
+                    "1. Что снять": data.project_type,
+                    "2. Локация": data.location,
+                    "3. Дата": data.date,
+                    "4. Участники": data.people,
+                    "5. Цель": data.goal,
+                    "6. Опции": data.addons,
+                    "7. Email": data.email
+                })
+            })
+            .then(response => {
+                if(!response.ok) throw new Error('Ошибка.');
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('step7').classList.remove('active');
+                document.getElementById('step-success').classList.add('active');
+                document.getElementById('progress-bar').style.width = `100%`;
+                document.getElementById('progress-bar').classList.add('bg-green-500');
+            })
+            .catch(error => {
+                submitBtn.innerHTML = 'Ошибка. Попробуйте еще раз';
+                submitBtn.disabled = false;
+                alert("Ошибка отправки.");
+            });
+        }
+
+        // Countdown Timer
+        let time = 24 * 60 * 60 - 1; 
+        const timerElement = document.getElementById('countdown');
+        if (timerElement) {
+            setInterval(() => {
+                let h = Math.floor(time / 3600);
+                let m = Math.floor((time % 3600) / 60);
+                let s = time % 60;
+                h = h < 10 ? "0" + h : h;
+                m = m < 10 ? "0" + m : m;
+                s = s < 10 ? "0" + s : s;
+                timerElement.textContent = `${h}:${m}:${s}`;
+                if(time > 0) time--;
+            }, 1000);
+        }
+
+        // ИНИЦИАЛИЗАЦИЯ КАРТЫ LEAFLET (Запускается железно)
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapContainer = document.getElementById('interactive-map');
+            if (!mapContainer) return;
+
+            var map = L.map('interactive-map', {
+                center: [45.0, 40.0],
+                zoom: 3,
+                scrollWheelZoom: false,
+                zoomControl: false,
+                dragging: !L.Browser.mobile
+            });
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+                attribution: '',
+                subdomains: 'abcd',
+                maxZoom: 10,
+                minZoom: 2
+            }).addTo(map);
+
+            var customIcon = L.divIcon({
+                className: 'custom-map-dot',
+                iconSize: [12, 12],
+                iconAnchor: [6, 6]
+            });
+
+            var locations = [
+                { name: "Москва", coords: [55.7558, 37.6173] },
+                { name: "Санкт-Петербург", coords: [59.9343, 30.3351] },
+                { name: "Сочи", coords: [43.5853, 39.7203] },
+                { name: "Казань", coords: [55.7963, 49.1088] },
+                { name: "Екатеринбург", coords: [56.8389, 60.6057] },
+                { name: "Владивосток", coords: [43.1198, 131.8869] },
+                { name: "Тбилиси", coords: [41.7151, 44.8271] },
+                { name: "Ереван", coords: [40.1872, 44.5152] },
+                { name: "Стамбул", coords: [41.0082, 28.9784] },
+                { name: "Анталья", coords: [36.8969, 30.7133] },
+                { name: "Дубай", coords: [25.2048, 55.2708] },
+                { name: "Пхукет", coords: [7.8804, 98.3922] },
+                { name: "Самуи", coords: [9.5120, 100.0136] },
+                { name: "Бали", coords: [-8.4095, 115.1889] },
+                { name: "Белград", coords: [44.7866, 20.4489] },
+                { name: "Лимасол", coords: [34.6750, 33.0333] },
+                { name: "Париж", coords: [48.8566, 2.3522] },
+                { name: "Рим", coords: [41.9028, 12.4964] },
+                { name: "Лондон", coords: [51.5074, -0.1278] },
+                { name: "Токио", coords: [35.6895, 139.6917] }
+            ];
+
+            locations.forEach(function(loc) {
+                var marker = L.marker(loc.coords, { icon: customIcon }).addTo(map);
+                marker.bindTooltip(loc.name, {
+                    permanent: false, 
+                    direction: 'top',
+                    className: 'bg-black text-white border-netflix-red font-bold uppercase tracking-widest text-[10px] px-2 py-1',
+                    opacity: 0.9
+                });
+            });
+        });
+    </script>
+</body>
+</html>
