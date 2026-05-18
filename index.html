@@ -59,21 +59,14 @@
         .scratch-area.revealed { background: transparent; pointer-events: none; }
         .scratch-area.revealed span { display: none; }
 
-        /* Маркеры карты */
+        /* Маркеры карты (Стили без transform, чтобы избежать багов) */
         .custom-map-dot {
             background-color: #E50914;
             border-radius: 50%;
             box-shadow: 0 0 10px #E50914, 0 0 20px #E50914;
             border: 2px solid #1a1a1a;
-            transition: all 0.3s ease;
         }
-        .custom-map-dot:hover {
-            background-color: #ffffff;
-            box-shadow: 0 0 15px #ffffff;
-            transform: scale(1.5) !important;
-            z-index: 1000 !important;
-        }
-        .leaflet-container { outline: 0 !important; }
+        .leaflet-container { outline: 0 !important; background: #111111 !important; }
     </style>
 </head>
 <body class="antialiased selection:bg-netflix-red selection:text-white">
@@ -250,7 +243,7 @@
     <section class="py-16 px-4 bg-[#141414]">
         <div class="max-w-4xl mx-auto text-center fade-up">
             <p class="text-lg md:text-xl font-light leading-relaxed text-gray-300 italic border-l-2 border-netflix-red pl-6 py-2 mx-auto inline-block text-left">
-                “Мы можем много рассказывать о нашем опыте, но лучше всего за нас говорит портфолио, с видео примерами наших работ вы можете ознакомиться ниже:”
+                “Мы можем много расскавать о нашем опыте, но лучше всего за нас говорит портфолио, с видео примерами наших работ вы можете ознакомиться ниже:”
             </p>
         </div>
     </section>
@@ -299,7 +292,7 @@
         <div class="max-w-5xl mx-auto text-center">
             <h2 class="text-2xl md:text-3xl font-extrabold uppercase tracking-[0.2em] mb-6 text-white fade-up">География съёмок</h2>
             <p class="text-base md:text-lg font-light text-gray-400 leading-relaxed max-w-3xl mx-auto mb-12 fade-up">
-                Мы базируемся в <span class="text-white font-medium border-b border-netflix-red/50">Москве</span> and <span class="text-white font-medium border-b border-netflix-red/50">Санкт-Петербурге</span>. География наших съёмок постоянно расширяется и на данный момент насчитывает уже <span class="text-netflix-red font-bold text-xl">30+ городов</span>.
+                Мы базируемся в <span class="text-white font-medium border-b border-netflix-red/50">Москве</span> и <span class="text-white font-medium border-b border-netflix-red/50">Санкт-Петербурге</span>. География наших съёмок постоянно расширяется и на данный момент насчитывает уже <span class="text-netflix-red font-bold text-xl">30+ городов</span>.
             </p>
             
             <div class="relative w-full max-w-5xl mx-auto h-[350px] md:h-[500px] rounded-sm overflow-hidden shadow-2xl border border-white/10 fade-up">
@@ -362,7 +355,7 @@
         }, observerOptions);
         document.querySelectorAll('.fade-up').forEach(element => observer.observe(element));
 
-        // Безопасная логика мобильного меню (защищено от краша скрипта)
+        // Безопасная логика мобильного меню
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
         if (btn && menu) {
@@ -449,33 +442,47 @@
             }, 1000);
         }
 
-        // ИНИЦИАЛИЗАЦИЯ КАРТЫ LEAFLET (Запускается железно)
+        // ИНИЦИАЛИЗАЦИЯ ИСПРАВЛЕННОЙ ИНТЕРАКТИВНОЙ КАРТЫ LEAFLET
         document.addEventListener('DOMContentLoaded', function() {
             const mapContainer = document.getElementById('interactive-map');
             if (!mapContainer) return;
 
+            // Центрирование мира по центру без искажений и пустых зон
             var map = L.map('interactive-map', {
-                center: [45.0, 40.0],
-                zoom: 3,
+                center: [25.0, 0.0],
+                zoom: 2,
+                minZoom: 2,
+                maxZoom: 5,
                 scrollWheelZoom: false,
                 zoomControl: false,
                 dragging: !L.Browser.mobile
             });
 
+            // noWrap: true исключает дублирование карты по бокам
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
                 attribution: '',
                 subdomains: 'abcd',
                 maxZoom: 10,
-                minZoom: 2
+                minZoom: 2,
+                noWrap: true
             }).addTo(map);
 
-            var customIcon = L.divIcon({
+            // Два разных объекта иконок для безопасного изменения размера через метод setIcon
+            var defaultIcon = L.divIcon({
                 className: 'custom-map-dot',
                 iconSize: [12, 12],
                 iconAnchor: [6, 6]
             });
 
+            var hoverIcon = L.divIcon({
+                className: 'custom-map-dot',
+                iconSize: [15, 15],
+                iconAnchor: [7.5, 7.5]
+            });
+
+            // Честный массив из 30 городов (20 старых + 5 новых в РФ + 5 новых по всему миру)
             var locations = [
+                // Изначальные 20 точек
                 { name: "Москва", coords: [55.7558, 37.6173] },
                 { name: "Санкт-Петербург", coords: [59.9343, 30.3351] },
                 { name: "Сочи", coords: [43.5853, 39.7203] },
@@ -495,16 +502,41 @@
                 { name: "Париж", coords: [48.8566, 2.3522] },
                 { name: "Рим", coords: [41.9028, 12.4964] },
                 { name: "Лондон", coords: [51.5074, -0.1278] },
-                { name: "Токио", coords: [35.6895, 139.6917] }
+                { name: "Токио", coords: [35.6895, 139.6917] },
+                
+                // 5 Новых городов по России
+                { name: "Новосибирск", coords: [55.0084, 82.9357] },
+                { name: "Красноярск", coords: [56.0153, 92.8932] },
+                { name: "Нижний Новгород", coords: [56.3269, 44.0059] },
+                { name: "Ростов-на-Дону", coords: [47.2357, 39.7015] },
+                { name: "Калининград", coords: [54.7104, 20.4522] },
+                
+                // 5 Новых мировых локаций в пустых зонах (Америка, Африка, Австралия)
+                { name: "Нью-Йорк", coords: [40.7128, -74.0060] },
+                { name: "Лос-Анджелес", coords: [34.0522, -118.2437] },
+                { name: "Рио-де-Жанейро", coords: [-22.9068, -43.1729] },
+                { name: "Кейптаун", coords: [-33.9249, 18.4241] },
+                { name: "Сидней", coords: [-33.8688, 151.2093] }
             ];
 
             locations.forEach(function(loc) {
-                var marker = L.marker(loc.coords, { icon: customIcon }).addTo(map);
+                var marker = L.marker(loc.coords, { icon: defaultIcon }).addTo(map);
+                
                 marker.bindTooltip(loc.name, {
                     permanent: false, 
                     direction: 'top',
                     className: 'bg-black text-white border-netflix-red font-bold uppercase tracking-widest text-[10px] px-2 py-1',
-                    opacity: 0.9
+                    opacity: 0.9,
+                    offset: [0, -5]
+                });
+
+                // Скриптовые события интерактивности: плавно меняют иконку без сброса координат
+                marker.on('mouseover', function() {
+                    this.setIcon(hoverIcon);
+                });
+                
+                marker.on('mouseout', function() {
+                    this.setIcon(defaultIcon);
                 });
             });
         });
