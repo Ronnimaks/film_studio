@@ -65,7 +65,7 @@ h2{font:800 clamp(26px,4.4vw,52px)/1.08 Montserrat;text-transform:uppercase}
 .pack{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:26px 22px;display:flex;flex-direction:column}
 .pack.best{border:2px solid var(--red);background:#1c0b0c;position:relative}
 .pack .tag{position:absolute;top:-12px;left:22px;background:var(--red);font:800 10px Montserrat;letter-spacing:.2em;padding:5px 10px;text-transform:uppercase}
-.pack h3{font:700 15px Montserrat;text-transform:uppercase;letter-spacing:.06em}
+.pack h3{font:700 15px Montserrat;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
 .pack .price{font:900 clamp(30px,3.4vw,40px) Montserrat;margin:14px 0 16px}
 .pack .price small{font-size:.5em;font-weight:700}
 .pack ul{list-style:none;font:400 14px/1.5 Montserrat;color:#cfcfcf}
@@ -76,6 +76,9 @@ h2{font:800 clamp(26px,4.4vw,52px)/1.08 Montserrat;text-transform:uppercase}
 .pack ul.cost li{display:flex;justify-content:space-between;gap:10px}
 .pack ul.cost b{white-space:nowrap;font-weight:700}
 
+.terms{margin-top:22px;font:400 12px/1.7 Montserrat;color:#8a8a8a}
+.smeta{margin-top:22px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;font:600 16px Montserrat}
+.smeta .btn{padding:14px 28px}
 /* СЛЕДУЮЩИЙ ШАГ */
 .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:18px 30px;border-radius:40px;font:700 13px Montserrat;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;color:#fff;border:1px solid #555}
@@ -151,47 +154,42 @@ h2{font:800 clamp(26px,4.4vw,52px)/1.08 Montserrat;text-transform:uppercase}
  </div>
 </section>
 
-<!-- ===== 5. ПАКЕТЫ ===== -->
+<!-- ===== 5. СТОИМОСТЬ (общий прайс, подходит под любой запрос) ===== -->
 <section class="slide">
  <div class="in">
-  <div class="num">05 · Стоимость</div>
-  <h2>Три варианта</h2>
+  <div class="num">05 · Цены</div>
+  <h2>Стоимость</h2>
   <div class="packs">
    <div class="pack">
-    <h3>Фото клиники</h3>
-    <div class="price">47 000 <small>₽</small></div>
-    <p class="res">Результат: 30-40 обработанных фото - интерьеры, кабинеты, оборудование, портреты врачей и команды</p>
+    <h3>Съёмка</h3>
     <ul class="cost">
-     <li><span>Фотограф, съёмка до 6 часов</span><b>30 000</b></li>
-     <li><span>Ассистент и свет</span><b>6 000</b></li>
-     <li><span>Обработка и ретушь фото</span><b>7 000</b></li>
-     <li><span>Подготовка и план съёмки</span><b>2 000</b></li>
-     <li><span>Транспорт</span><b>2 000</b></li>
+     <li><span>Фотограф</span><b>8 000 ₽ / час</b></li>
+     <li><span>Видеограф</span><b>8 000 ₽ / час</b></li>
+     <li class="plus"><span>Фотограф + видеограф</span><b>15 000 ₽ / час</b></li>
+     <li><span>Минимальное время съёмки</span><b>2 часа</b></li>
+     <li><span>Профессиональное оборудование</span><b>включено</b></li>
     </ul>
    </div>
    <div class="pack">
-    <h3>Фото + видео</h3>
-    <div class="price">85 000 <small>₽</small></div>
-    <p class="res">Результат: всё из пакета «Фото клиники» + имиджевый ролик о клинике 60-90 секунд</p>
+    <h3>Результат</h3>
     <ul class="cost">
-     <li><span>Пакет «Фото клиники»</span><b>47 000</b></li>
-     <li class="plus"><span>Видеограф с оборудованием</span><b>22 000</b></li>
-     <li class="plus"><span>Монтаж, цвет и звук ролика</span><b>16 000</b></li>
+     <li><span>Фото - обработанные снимки</span><b>около 100</b></li>
+     <li><span>Монтаж видео</span><b>от 15 000 ₽</b></li>
     </ul>
    </div>
-   <div class="pack best">
-    <span class="tag">Рекомендуем</span>
-    <h3>Полный комплект</h3>
-    <div class="price">115 000 <small>₽</small></div>
-    <p class="res">Результат: всё из пакета «Фото + видео» + 3 вертикальных ролика для соцсетей</p>
+   <div class="pack">
+    <h3>Постановочные ролики</h3>
     <ul class="cost">
-     <li><span>Пакет «Фото + видео»</span><b>85 000</b></li>
-     <li class="plus"><span>Сценарии трёх роликов</span><b>6 000</b></li>
-     <li class="plus"><span>Съёмка вертикальных роликов</span><b>12 000</b></li>
-     <li class="plus"><span>Монтаж трёх роликов</span><b>12 000</b></li>
+     <li><span>Разработка индивидуального сценария</span><b>от 10 000 ₽</b></li>
+     <li><span>Локации, реквизит, актёры</span><b>под проект</b></li>
     </ul>
    </div>
   </div>
+  <div class="terms">
+   <p>Транспорт рассчитывается отдельно.</p>
+   <p>При съёмке более 5 часов заказчик обеспечивает съёмочную группу горячим питанием.</p>
+  </div>
+  <div class="smeta"><span>Точную смету подготовим под вашу задачу</span><a class="btn main" href="https://t.me/ronnimaks" target="_blank">Написать</a></div>
  </div>
 </section>
 
