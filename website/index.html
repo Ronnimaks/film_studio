@@ -95,6 +95,59 @@ h2{font:800 clamp(26px,4.4vw,52px)/1.08 Montserrat;text-transform:uppercase}
 .sub .s{font:900 34px Montserrat;margin:8px 0 6px}
 .sub .s small{font-size:15px;font-weight:600;color:var(--muted)}
 
+/* СХЕМА-ЦЕПОЧКА */
+.chain{display:grid;grid-template-columns:1fr 44px 1fr 44px 1fr 44px 1fr;align-items:stretch;margin-top:30px}
+.node{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:20px 16px 16px;position:relative;transition:border-color .4s,background .4s,opacity .4s,transform .4s}
+.node .ni{font:600 12px 'JetBrains Mono',monospace;color:#555}
+.node h3{font:800 15px Montserrat;text-transform:uppercase;margin-top:8px}
+.node p{font:400 13px/1.45 Montserrat;color:var(--muted);margin-top:8px;min-height:38px}
+.node .cut{margin-top:12px;background:none;border:1px solid #444;color:#aaa;font:600 10px Montserrat;letter-spacing:.15em;text-transform:uppercase;padding:6px 10px;border-radius:20px;cursor:pointer}
+.node .cut:hover{border-color:#fff;color:#fff}
+.node.lit{border-color:var(--red);background:#1c0b0c;transform:translateY(-4px)}
+.node.lit:before{content:"";position:absolute;top:-14px;left:50%;margin-left:-7px;border:7px solid transparent;border-top-color:var(--red)}
+.node.off{opacity:.35;border-style:dashed;transform:none;background:var(--card)}
+.node.off .cut{border-color:var(--red);color:var(--red)}
+.arrow{display:flex;align-items:center;justify-content:center;position:relative}
+.arrow i{display:block;width:100%;height:2px;background:#333;position:relative}
+.arrow i:after{content:"";position:absolute;right:-1px;top:-5px;border:6px solid transparent;border-left-color:#333;border-right:0}
+.arrow.go i{background:var(--red)}.arrow.go i:after{border-left-color:var(--red)}
+.arrow.broken i{background:repeating-linear-gradient(90deg,var(--red) 0 4px,transparent 4px 8px)}
+.arrow.broken:before{content:"✕";position:absolute;color:var(--red);font:800 16px Montserrat;top:50%;margin-top:-26px}
+.loop{margin-top:14px;border:1px dashed #333;border-top:0;border-radius:0 0 12px 12px;padding:12px 16px;text-align:center;font:500 13px Montserrat;color:var(--muted)}
+.explain{margin-top:22px;min-height:76px;background:var(--card);border-left:3px solid var(--red);padding:16px 20px;font:400 15px/1.55 Montserrat;color:#d0d0d0;transition:background .3s}
+.explain b{display:block;font:800 14px Montserrat;text-transform:uppercase;letter-spacing:.08em;color:#fff;margin-bottom:4px}
+.explain.bad{background:#1c0b0c}.explain.bad b{color:var(--red)}
+
+/* ЦИФРЫ */
+.bars{margin-top:30px;display:grid;gap:22px}
+.bar-row{display:grid;grid-template-columns:280px 1fr 190px;gap:18px;align-items:center}
+.bl b{font:800 15px Montserrat;text-transform:uppercase;display:block}
+.bl span{font:400 12px/1.45 Montserrat;color:var(--muted);display:block;margin-top:4px}
+.track{height:34px;background:#1a1a1a;border-radius:4px;overflow:hidden}
+.fill{display:block;height:100%;width:0;background:var(--red);transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+.fill.grey{background:#4a4a4a}
+.bv{font:900 clamp(18px,2.2vw,26px) Montserrat;text-align:right;white-space:nowrap}
+.bv.red{color:var(--red)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+.fact{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--red);padding:18px;border-radius:4px}
+.fact b{font:900 clamp(24px,3vw,34px) Montserrat;display:block}
+.fact span{font:400 13px/1.45 Montserrat;color:var(--muted);display:block;margin-top:6px}
+.foot{margin-top:16px;font:400 12px/1.6 Montserrat;color:#777}
+@media (max-width:900px){
+ .chain{grid-template-columns:1fr;gap:0}
+ .arrow{height:34px}
+ .arrow i{width:2px;height:100%}
+ .arrow i:after{right:auto;top:auto;bottom:-1px;left:-5px;border:6px solid transparent;border-top-color:#333;border-bottom:0}
+ .arrow.go i:after{border-top-color:var(--red);border-left-color:transparent}
+ .arrow.broken i{background:repeating-linear-gradient(180deg,var(--red) 0 4px,transparent 4px 8px)}
+ .arrow.broken:before{margin:0;left:calc(50% + 14px);top:6px}
+ .node p{min-height:0}
+ .loop{border-top:1px dashed #333;border-radius:12px}
+ .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+ .bar-row .track{grid-column:1/-1;grid-row:2}
+ .facts{grid-template-columns:1fr}
+}
+
 /* КНОПКИ */
 .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
 .btn{display:inline-flex;align-items:center;justify-content:center;padding:18px 30px;border-radius:40px;font:700 13px Montserrat;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;color:#fff;border:1px solid #555}
@@ -125,7 +178,7 @@ h2{font:800 clamp(26px,4.4vw,52px)/1.08 Montserrat;text-transform:uppercase}
 
 <header class="top">
  <a class="logo" href="../"><b>RONNIE</b><span>FILM STUDIO</span></a>
- <div id="cnt">01 / 08</div>
+ <div id="cnt">01 / 10</div>
 </header>
 
 <!-- ===== 1. ОБЛОЖКА ===== -->
@@ -232,10 +285,57 @@ h2{font:800 clamp(26px,4.4vw,52px)/1.08 Montserrat;text-transform:uppercase}
  </div>
 </section>
 
-<!-- ===== 6. СОСТАВ И СТОИМОСТЬ ===== -->
+<!-- ===== 6. КАК ЭТО РАБОТАЕТ: схема-цепочка с «указкой» ===== -->
+<section class="slide" id="how">
+ <div class="in">
+  <div class="num">06 · Как это работает</div>
+  <h2>Одна система,<br>четыре <span class="red">звена</span></h2>
+  <p class="lead" style="margin-top:14px">Каждое звено делает свою работу и передаёт клиента дальше. Нажмите «убрать», чтобы увидеть, что сломается.</p>
+  <div class="chain">
+   <div class="node"><span class="ni">01</span><h3>Продвижение</h3><p>Люди находят вас в поиске и нейросетях</p><button class="cut">убрать</button></div>
+   <div class="arrow"><i></i></div>
+   <div class="node"><span class="ni">02</span><h3>Сайт</h3><p>Убеждает: красиво, быстро, на любом телефоне</p><button class="cut">убрать</button></div>
+   <div class="arrow"><i></i></div>
+   <div class="node"><span class="ni">03</span><h3>Диспетчер 24/7</h3><p>Отвечает и записывает днём и ночью</p><button class="cut">убрать</button></div>
+   <div class="arrow"><i></i></div>
+   <div class="node"><span class="ni">04</span><h3>Аналитика</h3><p>Показывает, что приносит клиентов</p><button class="cut">убрать</button></div>
+  </div>
+  <div class="loop"><span>↺ Аналитика подсказывает продвижению, что усиливать - и система с каждым месяцем работает лучше</span></div>
+  <div class="explain" id="explain"><b id="exT"></b><span id="exD"></span></div>
+ </div>
+</section>
+
+<!-- ===== 7. ЦИФРЫ: сравнение со штатом ===== -->
+<section class="slide" id="nums">
+ <div class="in">
+  <div class="num">07 · Цифры</div>
+  <h2>Система против<br><span class="red">штата</span></h2>
+  <p class="lead" style="margin-top:14px">Ту же работу можно поручить людям. Сравним за первый год.</p>
+  <div class="bars">
+   <div class="bar-row">
+    <div class="bl"><b>Штат сотрудников</b><span>автор 50 000 + редактор 50 000 + администратор чата 50 000 = 150 000 ₽ в месяц × 12</span></div>
+    <div class="track"><i class="fill grey" data-w="100"></i></div>
+    <div class="bv">1 800 000 ₽</div>
+   </div>
+   <div class="bar-row">
+    <div class="bl"><b>Наша система</b><span>350 000 ₽ один раз + поддержка 40 000 ₽ в месяц × 12</span></div>
+    <div class="track"><i class="fill" data-w="46"></i></div>
+    <div class="bv red">830 000 ₽</div>
+   </div>
+  </div>
+  <div class="facts">
+   <div class="fact rv"><b>970 000 ₽</b><span>экономия в первый год</span></div>
+   <div class="fact rv"><b>480 000 ₽</b><span>в год со второго года - только поддержка</span></div>
+   <div class="fact rv"><b>168 ч</b><span>в неделю на связи диспетчер. Администратор - около 40</span></div>
+  </div>
+  <p class="foot">Зарплаты взяты по минимуму, без налогов, отпусков и больничных.</p>
+ </div>
+</section>
+
+<!-- ===== 8. СОСТАВ И СТОИМОСТЬ ===== -->
 <section class="slide">
  <div class="in">
-  <div class="num">06 · Стоимость</div>
+  <div class="num">08 · Стоимость</div>
   <h2>Состав и цена</h2>
   <div class="price-list">
    <div class="pl rv"><span class="i">01</span><div><h3>Дизайн и вёрстка</h3><p>Код вручную, адаптация под все устройства, облегчённая версия для старых Android</p></div><span class="s">120 000 ₽</span></div>
@@ -248,10 +348,10 @@ h2{font:800 clamp(26px,4.4vw,52px)/1.08 Montserrat;text-transform:uppercase}
  </div>
 </section>
 
-<!-- ===== 7. ПОДДЕРЖКА И ОПЛАТА ===== -->
+<!-- ===== 9. ПОДДЕРЖКА И ОПЛАТА ===== -->
 <section class="slide">
  <div class="in">
-  <div class="num">07 · Поддержка и оплата</div>
+  <div class="num">09 · Поддержка и оплата</div>
   <h2>После запуска<br>мы рядом</h2>
   <div class="two">
    <div class="sub rv">
@@ -277,10 +377,10 @@ h2{font:800 clamp(26px,4.4vw,52px)/1.08 Montserrat;text-transform:uppercase}
  </div>
 </section>
 
-<!-- ===== 8. СЛЕДУЮЩИЙ ШАГ ===== -->
+<!-- ===== 10. СЛЕДУЮЩИЙ ШАГ ===== -->
 <section class="slide">
  <div class="in">
-  <div class="num">08 · Следующий шаг</div>
+  <div class="num">10 · Следующий шаг</div>
   <h2>Обсудим<br>ваш <span class="red">сайт</span></h2>
   <p class="lead">Расскажите о бизнесе и задаче - подготовим план сайта и точную смету.</p>
   <div class="btns">
@@ -320,6 +420,39 @@ function typeNext(){
  pre.insertAdjacentHTML('beforeend',lines[li++]+'\n');setTimeout(typeNext,li===1?700:380);
 }
 if(matchMedia('(prefers-reduced-motion: reduce)').matches){pre.innerHTML=lines.join('\n')}else setTimeout(typeNext,500);
+
+/* СХЕМА: «указка» по очереди подсвечивает звенья и объясняет; «убрать» показывает, что ломается */
+(function(){
+ const nodes=[...document.querySelectorAll('#how .node')], arrows=[...document.querySelectorAll('#how .arrow')];
+ const ex=document.getElementById('explain'), T=document.getElementById('exT'), D=document.getElementById('exD');
+ const ok=[
+  ['Шаг 1. Продвижение','Система каждый день выпускает статьи и страницы. Человек ищет услугу в Яндексе или спрашивает нейросеть - и находит вас.'],
+  ['Шаг 2. Сайт','Человек попадает на сайт. Он быстро открывается на любом телефоне, всё понятно с первого экрана - появляется доверие.'],
+  ['Шаг 3. Диспетчер 24/7','Появился вопрос - чат сразу отвечает, даже в 3 часа ночи, и записывает. Сложное передаёт администратору.'],
+  ['Шаг 4. Аналитика','Видно, откуда пришла каждая заявка. Продвижение усиливает то, что работает, - и круг повторяется с новыми клиентами.']
+ ];
+ const bad=[
+  ['Без продвижения','Сайт есть, но его никто не видит. Нет посетителей - нет заявок. Красивая витрина в пустом переулке.'],
+  ['Без сайта','Людей находим, но им некуда прийти и не на что посмотреть. Они уходят к конкурентам.'],
+  ['Без диспетчера','Человек зашёл вечером, задал вопрос - ответа нет до утра. К утру он уже записан к конкурентам.'],
+  ['Без аналитики','Всё работает вслепую: непонятно, откуда клиенты и куда вкладывать деньги. Бюджет уходит наугад.']
+ ];
+ let step=0, timer=null, off=-1;
+ function paint(){
+  nodes.forEach((n,i)=>{n.classList.toggle('off',i===off);n.classList.toggle('lit',off<0&&i===step);n.querySelector('.cut').textContent=i===off?'вернуть':'убрать'});
+  arrows.forEach((a,i)=>{a.classList.toggle('go',off<0&&i<step);a.classList.toggle('broken',off>=0&&(i===off||i===off-1))});
+  const t=off>=0?bad[off]:ok[step]; T.textContent=t[0]; D.textContent=t[1]; ex.classList.toggle('bad',off>=0);
+ }
+ function play(){clearInterval(timer);timer=setInterval(()=>{step=(step+1)%4;paint()},3200)}
+ nodes.forEach((n,i)=>{
+  n.querySelector('.cut').addEventListener('click',()=>{off=off===i?-1:i;if(off>=0)clearInterval(timer);else{step=0;play()}paint()});
+  n.addEventListener('mouseenter',()=>{if(off<0){step=i;paint();play()}});
+ });
+ paint();
+ new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){if(off<0){step=0;paint();play()}}else clearInterval(timer)}),{threshold:.4}).observe(document.getElementById('how'));
+ /* ЦИФРЫ: полосы вырастают, когда слайд на экране */
+ new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll('#nums .fill').forEach(f=>f.style.width=f.dataset.w+'%')}),{threshold:.3}).observe(document.getElementById('nums'));
+})();
 </script>
 </body>
 </html>
