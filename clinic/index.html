@@ -72,6 +72,9 @@ h2{font:800 clamp(26px,4.4vw,52px)/1.08 Montserrat;text-transform:uppercase}
 .pack li{padding:7px 0 7px 20px;position:relative;border-top:1px solid #ffffff10}
 .pack li:before{content:"";position:absolute;left:0;top:14px;width:8px;height:8px;background:var(--red)}
 .pack li.plus{color:#fff;font-weight:600}
+.pack .res{font:400 13px/1.5 Montserrat;color:#bdbdbd;margin:-4px 0 14px}
+.pack ul.cost li{display:flex;justify-content:space-between;gap:10px}
+.pack ul.cost b{white-space:nowrap;font-weight:700}
 
 /* СЛЕДУЮЩИЙ ШАГ */
 .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
@@ -156,19 +159,37 @@ h2{font:800 clamp(26px,4.4vw,52px)/1.08 Montserrat;text-transform:uppercase}
   <div class="packs">
    <div class="pack">
     <h3>Фото клиники</h3>
-    <div class="price">49 000 <small>₽</small></div>
-    <ul><li>30-40 обработанных фотографий</li><li>Интерьеры, кабинеты, оборудование</li><li>Портреты врачей и команды</li></ul>
+    <div class="price">47 000 <small>₽</small></div>
+    <p class="res">Результат: 30-40 обработанных фото - интерьеры, кабинеты, оборудование, портреты врачей и команды</p>
+    <ul class="cost">
+     <li><span>Фотограф, съёмка до 6 часов</span><b>30 000</b></li>
+     <li><span>Ассистент и свет</span><b>6 000</b></li>
+     <li><span>Обработка и ретушь фото</span><b>7 000</b></li>
+     <li><span>Подготовка и план съёмки</span><b>2 000</b></li>
+     <li><span>Транспорт</span><b>2 000</b></li>
+    </ul>
    </div>
    <div class="pack">
     <h3>Фото + видео</h3>
-    <div class="price">89 000 <small>₽</small></div>
-    <ul><li>Всё из пакета «Фото клиники»</li><li class="plus">Имиджевый ролик 60-90 секунд</li></ul>
+    <div class="price">85 000 <small>₽</small></div>
+    <p class="res">Результат: всё из пакета «Фото клиники» + имиджевый ролик о клинике 60-90 секунд</p>
+    <ul class="cost">
+     <li><span>Пакет «Фото клиники»</span><b>47 000</b></li>
+     <li class="plus"><span>Видеограф с оборудованием</span><b>22 000</b></li>
+     <li class="plus"><span>Монтаж, цвет и звук ролика</span><b>16 000</b></li>
+    </ul>
    </div>
    <div class="pack best">
     <span class="tag">Рекомендуем</span>
     <h3>Полный комплект</h3>
-    <div class="price">119 000 <small>₽</small></div>
-    <ul><li>Всё из пакета «Фото + видео»</li><li class="plus">3 вертикальных ролика для соцсетей</li><li>Команда, свет, обработка и монтаж включены</li></ul>
+    <div class="price">115 000 <small>₽</small></div>
+    <p class="res">Результат: всё из пакета «Фото + видео» + 3 вертикальных ролика для соцсетей</p>
+    <ul class="cost">
+     <li><span>Пакет «Фото + видео»</span><b>85 000</b></li>
+     <li class="plus"><span>Сценарии трёх роликов</span><b>6 000</b></li>
+     <li class="plus"><span>Съёмка вертикальных роликов</span><b>12 000</b></li>
+     <li class="plus"><span>Монтаж трёх роликов</span><b>12 000</b></li>
+    </ul>
    </div>
   </div>
  </div>
