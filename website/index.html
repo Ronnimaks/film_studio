@@ -1,0 +1,325 @@
+<!doctype html>
+<!--
+  РАЗДЕЛ «САЙТ ПОД КЛЮЧ» - RONNIE FILM STUDIO
+  Что это: страница-презентация услуги по созданию сайта, листается вниз по слайдам.
+  Адрес: https://ronnimaks.github.io/film_studio/website/
+  Цены - блок «СОСТАВ И СТОИМОСТЬ», поддержка и оплата - блок «ПОДДЕРЖКА И ОПЛАТА».
+  Текст общий, не привязан к одной нише.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Сайт под ключ - RONNIE FILM STUDIO</title>
+<meta property="og:title" content="Сайт под ключ, который сам приводит клиентов">
+<meta property="og:description" content="Дизайн, код, продвижение в поиске и нейросетях, чат-диспетчер 24/7 и аналитика">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--red:#e50914;--bg:#0d0d0d;--card:#171717;--line:#2a2a2a;--muted:#9a9a9a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+body{background:var(--bg);color:#fff;font-family:Montserrat,sans-serif;-webkit-font-smoothing:antialiased}
+.slide{min-height:100vh;min-height:100svh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;padding:84px 20px 56px;position:relative;overflow:hidden}
+.in{max-width:1080px;width:100%;margin:0 auto;position:relative;z-index:2}
+.num{font:700 11px Montserrat;letter-spacing:.35em;color:var(--red);text-transform:uppercase;margin-bottom:18px}
+h1{font:900 clamp(34px,5.4vw,68px)/1.02 Montserrat;text-transform:uppercase;letter-spacing:-.01em}
+h2{font:800 clamp(26px,4.4vw,52px)/1.08 Montserrat;text-transform:uppercase}
+.lead{font:300 clamp(16px,2vw,21px)/1.55 Montserrat;color:#d0d0d0;margin-top:22px;max-width:660px}
+.red{color:var(--red)}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* ШАПКА */
+.top{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:linear-gradient(#0d0d0dee,#0d0d0d00)}
+.logo{color:#fff;text-decoration:none}
+.logo b{font:900 18px Montserrat;letter-spacing:.12em;display:block}
+.logo span{font:500 9px Montserrat;letter-spacing:.35em;color:var(--red)}
+#cnt{font:600 12px Montserrat;color:var(--muted);letter-spacing:.15em}
+
+/* ОБЛОЖКА: окно браузера, в котором «печатается» код */
+.cover .in{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.win{background:#111;border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 30px 60px #000a}
+.win .bar{display:flex;gap:6px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.win .bar i{width:10px;height:10px;border-radius:50%;background:#333}
+.win .bar i:first-child{background:var(--red)}
+.win pre{font:400 13px/1.75 'JetBrains Mono',monospace;color:#8f8f8f;padding:18px 18px 22px;min-height:260px;white-space:pre-wrap}
+.win pre b{color:#fff;font-weight:600}.win pre em{color:var(--red);font-style:normal}
+.caret{display:inline-block;width:8px;height:15px;background:var(--red);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.down{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:2;font-size:11px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translate(-50%,6px)}}
+
+/* КАРТОЧКИ */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+.card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--red);padding:22px 20px;border-radius:4px}
+.card .n{font:600 12px 'JetBrains Mono',monospace;color:#555}
+.card h3{font:700 15px/1.3 Montserrat;margin-top:10px;text-transform:uppercase}
+.card p{font:400 14px/1.55 Montserrat;color:var(--muted);margin-top:10px}
+
+/* ДВЕ КОЛОНКИ: текст + сравнение */
+.two{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;margin-top:34px;align-items:start}
+.list{list-style:none}
+.list li{font:400 15px/1.55 Montserrat;color:#d0d0d0;padding:12px 0 12px 26px;position:relative;border-top:1px solid #ffffff12}
+.list li:before{content:"";position:absolute;left:0;top:20px;width:9px;height:9px;background:var(--red)}
+.list li b{color:#fff}
+.vs{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:24px 22px}
+.vs h4{font:700 12px Montserrat;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.vs .row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:14px 0;border-bottom:1px solid #ffffff12;font:400 14px/1.4 Montserrat;color:#bdbdbd}
+.vs .row b{font:800 18px Montserrat;color:#fff;white-space:nowrap}
+.vs .row.win2 b{color:var(--red)}
+.vs .row:last-child{border:0}
+
+/* ТЕРМИНЫ ПРОДВИЖЕНИЯ */
+.terms4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:26px}
+.t{border:1px solid var(--line);border-radius:4px;padding:14px}
+.t b{font:800 18px Montserrat;color:var(--red)}
+.t p{font:400 12.5px/1.45 Montserrat;color:var(--muted);margin-top:6px}
+
+/* СОСТАВ И СТОИМОСТЬ */
+.price-list{margin-top:30px;border-top:1px solid var(--line)}
+.pl{display:grid;grid-template-columns:44px 1fr auto;gap:16px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
+.pl .i{font:600 13px 'JetBrains Mono',monospace;color:#555}
+.pl h3{font:700 16px Montserrat;text-transform:uppercase}
+.pl p{font:400 13px/1.45 Montserrat;color:var(--muted);margin-top:4px}
+.pl .s{font:800 clamp(18px,2.2vw,24px) Montserrat;white-space:nowrap}
+.pl.opt h3:after{content:"по желанию";font:700 9px Montserrat;letter-spacing:.15em;color:var(--red);border:1px solid var(--red);padding:3px 6px;margin-left:10px;vertical-align:3px;display:inline-block;white-space:nowrap}
+.total{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;margin-top:22px}
+.total span{font:600 14px Montserrat;color:var(--muted);letter-spacing:.15em;text-transform:uppercase}
+.total b{font:900 clamp(36px,5vw,58px) Montserrat}
+.total small{display:block;width:100%;font:400 13px Montserrat;color:var(--muted)}
+
+/* ОПЛАТА */
+.pay{background:#1c0b0c;border:2px solid var(--red);border-radius:4px;padding:24px 22px}
+.pay h4{font:800 22px Montserrat;text-transform:uppercase}
+.pay .list li{font-size:14px}
+.sub{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:24px 22px}
+.sub .s{font:900 34px Montserrat;margin:8px 0 6px}
+.sub .s small{font-size:15px;font-weight:600;color:var(--muted)}
+
+/* КНОПКИ */
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:18px 30px;border-radius:40px;font:700 13px Montserrat;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;color:#fff;border:1px solid #555}
+.btn.main{background:var(--red);border-color:var(--red)}
+
+/* Появление при прокрутке */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.rv.on{opacity:1;transform:none}
+
+@media (max-width:900px){
+ html{scroll-snap-type:none}
+ .top{position:absolute}
+ .cover .in,.two{grid-template-columns:1fr}
+ .grid{grid-template-columns:1fr 1fr}
+ .terms4{grid-template-columns:1fr 1fr}
+ .win pre{min-height:0;font-size:12px}
+}
+@media (max-width:520px){
+ .grid{grid-template-columns:1fr}
+ .pl{grid-template-columns:1fr auto;gap:6px 12px}
+ .pl .i{display:none}
+ .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.caret,.down{animation:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+ <a class="logo" href="../"><b>RONNIE</b><span>FILM STUDIO</span></a>
+ <div id="cnt">01 / 08</div>
+</header>
+
+<!-- ===== 1. ОБЛОЖКА ===== -->
+<section class="slide cover">
+ <div class="in">
+  <div>
+   <div class="num">Сайт под ключ</div>
+   <h1>Сайт, который <span class="red">сам</span> приводит клиентов</h1>
+   <p class="lead">Многостраничный сайт с нуля: дизайн, код, домен, хостинг, продвижение в поиске и нейросетях, чат-диспетчер 24/7 и аналитика. Вы получаете работающий инструмент продаж.</p>
+  </div>
+  <div class="win" aria-hidden="true">
+   <div class="bar"><i></i><i></i><i></i></div>
+   <pre id="code"></pre>
+  </div>
+ </div>
+ <div class="down">листайте ↓</div>
+</section>
+
+<!-- ===== 2. ЧТО ДЕЛАЕМ ===== -->
+<section class="slide">
+ <div class="in">
+  <div class="num">02 · Что делаем</div>
+  <h2>Всё, что нужно сайту,<br>в одних руках</h2>
+  <div class="grid">
+   <div class="card rv"><div class="n">01</div><h3>Код вручную</h3><p>Без конструкторов и шаблонов. Пишем на современном стеке под вашу задачу - быстро, надёжно, по всем стандартам.</p></div>
+   <div class="card rv"><div class="n">02</div><h3>Любые экраны</h3><p>Компьютер, iPhone, Android. Для старых Android - облегчённая версия, чтобы всё открывалось быстро и без зависаний.</p></div>
+   <div class="card rv"><div class="n">03</div><h3>Любые функции</h3><p>Калькуляторы, расчёты, формы записи, личные кабинеты, интеграции - всё, что нужно вашему бизнесу.</p></div>
+   <div class="card rv"><div class="n">04</div><h3>Анимация</h3><p>Живые переходы и эффекты при прокрутке, которые подчёркивают уровень бренда и не тормозят сайт.</p></div>
+   <div class="card rv"><div class="n">05</div><h3>Домен и хостинг</h3><p>Подключаем домен, размещаем сайт на сервере, настраиваем защищённое соединение. Вам ничего не нужно настраивать.</p></div>
+   <div class="card rv"><div class="n">06</div><h3>Панель управления</h3><p>По желанию: сами меняете тексты, цены и картинки. Или любые правки делаем мы.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- ===== 3. ПРОДВИЖЕНИЕ ===== -->
+<section class="slide">
+ <div class="in">
+  <div class="num">03 · Продвижение</div>
+  <h2>Чтобы о сайте <span class="red">узнали</span></h2>
+  <div class="two">
+   <ul class="list rv">
+    <li>Создаём <b>систему продвижения</b> с нуля, индивидуально под ваш бизнес, и запускаем её на сервере.</li>
+    <li>Дальше она <b>каждый день работает сама</b>: собирает запросы клиентов в вашем городе, изучает конкурентов, пишет статьи и выкладывает их на сайт.</li>
+    <li>Готовит сайт под нейросети, чтобы <b>ChatGPT, Алиса и другие</b> рекомендовали именно вас.</li>
+    <li>С каждой неделей сайт всё чаще появляется <b>в поиске и в ответах нейросетей</b>.</li>
+   </ul>
+   <div class="vs rv">
+    <h4>Сравнение</h4>
+    <div class="row"><span>Автор статей</span><b>от 50 000 ₽ / мес</b></div>
+    <div class="row"><span>Редактор</span><b>от 50 000 ₽ / мес</b></div>
+    <div class="row win2"><span>Наша система - один раз и работает сама</span><b>125 000 ₽</b></div>
+   </div>
+  </div>
+  <div class="terms4">
+   <div class="t rv"><b>SEO</b><p>Высокие позиции в Яндексе и Google</p></div>
+   <div class="t rv"><b>GEO</b><p>Сайт рекомендуют нейросети: ChatGPT, Алиса, Perplexity</p></div>
+   <div class="t rv"><b>AEO</b><p>Сайт - готовый ответ для голосовых помощников и быстрых ответов поиска</p></div>
+   <div class="t rv"><b>PSEO</b><p>Сотни страниц под конкретные запросы, собранные автоматически</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- ===== 4. ДИСПЕТЧЕР 24/7 ===== -->
+<section class="slide">
+ <div class="in">
+  <div class="num">04 · Диспетчер 24/7</div>
+  <h2>Ни одна заявка<br>не потеряется</h2>
+  <div class="two">
+   <ul class="list rv">
+    <li>Чат на сайте, который <b>отвечает людям круглосуточно</b>, без выходных.</li>
+    <li>Знает все ваши <b>услуги и цены</b>, сразу записывает клиента.</li>
+    <li>Если вопрос сложный - <b>передаёт администратору</b>.</li>
+    <li>Через него проходят <b>100% обращений</b>, никто не уходит без ответа.</li>
+   </ul>
+   <div class="vs rv">
+    <h4>Сравнение</h4>
+    <div class="row"><span>Администратор на чате - отвлекается, болеет, спит ночью</span><b>от 50 000 ₽ / мес</b></div>
+    <div class="row win2"><span>Диспетчер 24/7 - всегда на связи</span><b>70 000 ₽</b></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ===== 5. АНАЛИТИКА ===== -->
+<section class="slide">
+ <div class="in">
+  <div class="num">05 · Аналитика</div>
+  <h2>Видно, что<br>приносит деньги</h2>
+  <div class="two">
+   <ul class="list rv">
+    <li>Подключаем <b>Яндекс Метрику</b> и настраиваем цели: заявка, звонок, сообщение в чат.</li>
+    <li>Каждому источнику ставим метку: <b>поиск, нейросети, карты, реклама</b>.</li>
+    <li>Видно, сколько заявок пришло, <b>откуда и с какой страницы</b>.</li>
+    <li>Понятно, куда вкладываться дальше, а что не работает.</li>
+   </ul>
+   <div class="vs rv">
+    <h4>Что видно в отчёте</h4>
+    <div class="row"><span>Откуда пришёл клиент</span><b>источник</b></div>
+    <div class="row"><span>Что его зацепило</span><b>страница</b></div>
+    <div class="row"><span>Как обратился</span><b>заявка · звонок · чат</b></div>
+    <div class="row"><span>Что приносит больше</span><b>по неделям</b></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ===== 6. СОСТАВ И СТОИМОСТЬ ===== -->
+<section class="slide">
+ <div class="in">
+  <div class="num">06 · Стоимость</div>
+  <h2>Состав и цена</h2>
+  <div class="price-list">
+   <div class="pl rv"><span class="i">01</span><div><h3>Дизайн и вёрстка</h3><p>Код вручную, адаптация под все устройства, облегчённая версия для старых Android</p></div><span class="s">120 000 ₽</span></div>
+   <div class="pl rv"><span class="i">02</span><div><h3>Система продвижения</h3><p>SEO, GEO, AEO, PSEO - статьи и страницы выходят каждый день</p></div><span class="s">125 000 ₽</span></div>
+   <div class="pl rv"><span class="i">03</span><div><h3>Диспетчер 24/7</h3><p>Чат отвечает, записывает и передаёт сложные вопросы администратору</p></div><span class="s">70 000 ₽</span></div>
+   <div class="pl rv"><span class="i">04</span><div><h3>Аналитика</h3><p>Яндекс Метрика, цели, метки источников</p></div><span class="s">20 000 ₽</span></div>
+   <div class="pl opt rv"><span class="i">05</span><div><h3>Панель управления</h3><p>Сами правите тексты, цены и картинки. Без неё правки делаем мы</p></div><span class="s">15 000 ₽</span></div>
+  </div>
+  <div class="total rv"><span>Итого под ключ</span><b>350 000 ₽</b><small>Без панели управления - 335 000 ₽. Цена фиксированная и по ходу работы не меняется.</small></div>
+ </div>
+</section>
+
+<!-- ===== 7. ПОДДЕРЖКА И ОПЛАТА ===== -->
+<section class="slide">
+ <div class="in">
+  <div class="num">07 · Поддержка и оплата</div>
+  <h2>После запуска<br>мы рядом</h2>
+  <div class="two">
+   <div class="sub rv">
+    <h4 class="num" style="margin:0">Техподдержка</h4>
+    <div class="s">40 000 ₽ <small>/ месяц</small></div>
+    <ul class="list">
+     <li>Сервер: сайт и диспетчер работают <b>без перебоев днём и ночью</b>.</li>
+     <li>Система продвижения: <b>статьи выходят каждый день</b>.</li>
+     <li>Любые правки по вашей просьбе: тексты, цены, картинки, <b>новые страницы</b>.</li>
+    </ul>
+   </div>
+   <div class="pay rv">
+    <h4>Оплата - 100% сразу</h4>
+    <ul class="list" style="margin-top:12px">
+     <li>Команда выходит на проект <b>в тот же день</b> и делает все части параллельно.</li>
+     <li>Продвижение запускается раньше: каждая неделя задержки - неделя, когда вас нет в поиске и нейросетях.</li>
+     <li>Сервер и все сервисы <b>оплачиваем мы</b> с первого дня - докупать ничего не нужно.</li>
+     <li>Сайт и все материалы <b>оформлены на вас</b>.</li>
+     <li>По договорённости возможна оплата двумя частями: 50 на 50.</li>
+    </ul>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ===== 8. СЛЕДУЮЩИЙ ШАГ ===== -->
+<section class="slide">
+ <div class="in">
+  <div class="num">08 · Следующий шаг</div>
+  <h2>Обсудим<br>ваш <span class="red">сайт</span></h2>
+  <p class="lead">Расскажите о бизнесе и задаче - подготовим план сайта и точную смету.</p>
+  <div class="btns">
+   <a class="btn main" href="https://t.me/ronnimaks" target="_blank">Написать в Telegram</a>
+   <a class="btn" href="tel:+79961260245">+7 996 126-02-45</a>
+  </div>
+ </div>
+</section>
+
+<script>
+/* СЧЁТЧИК СЛАЙДОВ */
+const slides=[...document.querySelectorAll('.slide')], cnt=document.getElementById('cnt');
+const pad=n=>String(n).padStart(2,'0');
+const sio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)cnt.textContent=pad(slides.indexOf(e.target)+1)+' / '+pad(slides.length)}),{threshold:.5});
+slides.forEach(s=>sio.observe(s));
+
+/* ПОЯВЛЕНИЕ БЛОКОВ ПРИ ПРОКРУТКЕ (по очереди внутри слайда) */
+const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');rio.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=((i%6)*80)+'ms';rio.observe(el)});
+
+/* ОБЛОЖКА: код «печатается» в окне браузера */
+const lines=[
+ '<em>$</em> new site --custom',
+ '<b>✓</b> дизайн и код вручную',
+ '<b>✓</b> компьютер · iPhone · Android',
+ '<b>✓</b> калькуляторы и формы',
+ '<b>✓</b> домен + хостинг + https',
+ '<b>✓</b> SEO · GEO · AEO · PSEO',
+ '<b>✓</b> диспетчер 24/7',
+ '<b>✓</b> аналитика',
+ '<em>→</em> сайт запущен'
+];
+const pre=document.getElementById('code');
+let li=0;
+function typeNext(){
+ if(li>=lines.length){pre.insertAdjacentHTML('beforeend','<span class="caret"></span>');return}
+ pre.insertAdjacentHTML('beforeend',lines[li++]+'\n');setTimeout(typeNext,li===1?700:380);
+}
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){pre.innerHTML=lines.join('\n')}else setTimeout(typeNext,500);
+</script>
+</body>
+</html>

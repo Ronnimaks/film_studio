@@ -15,3 +15,4 @@
 | Фото «обо мне» | `me.jpeg` |
 | Презентация для клиники (Давид) | `clinic/index.html` -> https://ronnimaks.github.io/film_studio/clinic/ ; примеры `clinic/primer1.mp4`, `primer2.mp4` |
 | Список городов карты | `tools/locs.txt` (Россия, Крым, Турция, Египет с 24.11) |
+| Раздел «Сайт под ключ» (страница-презентация, на утверждении) | `website/index.html` -> https://ronnimaks.github.io/film_studio/website/ |
