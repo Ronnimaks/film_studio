@@ -6,8 +6,8 @@ const topo = JSON.parse(fs.readFileSync('node_modules/world-atlas/countries-110m
 let countries = feature(topo, topo.objects.countries);
 countries.features = countries.features.filter(f => f.properties.name !== 'Antarctica');
 const W = 1000, H = 500;
-// Обрезаем мир по городам: от Лос-Анджелеса до Сиднея, с полями
-const box = { type: 'Feature', geometry: { type: 'MultiPoint', coordinates: [[-130, 68], [160, 68], [-130, -42], [160, -42]] } };
+// Обрезаем мир по городам: от Калининграда до Владивостока, юг - Египет, с полями
+const box = { type: 'Feature', geometry: { type: 'MultiPoint', coordinates: [[14, 70], [140, 70], [14, 24], [140, 24]] } };
 const proj = geoNaturalEarth1().fitSize([W, H], box);
 const path = geoPath(proj).digits(0);
 const src = fs.readFileSync(process.argv[2] || 'locs.txt', 'utf8');
