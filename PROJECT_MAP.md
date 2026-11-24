@@ -13,3 +13,5 @@
 | Карта городов | `index.html`, `#geography` - готовая SVG-картинка; города в массиве `locations` больше не используются |
 | Перерисовать карту | `tools/build_map.mjs` (нужны d3-geo, topojson-client, world-atlas в отдельной папке): `node build_map.mjs locs.txt` -> `map.svg`, вставить вместо `<svg id="geo-map">` |
 | Фото «обо мне» | `me.jpeg` |
+| Презентация для клиники (Давид) | `clinic/index.html` -> https://ronnimaks.github.io/film_studio/clinic/ ; примеры `clinic/primer1.mp4`, `primer2.mp4` |
+| Список городов карты | `tools/locs.txt` (Россия, Крым, Турция, Египет с 24.11) |

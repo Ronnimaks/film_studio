@@ -1,0 +1,199 @@
+<!doctype html>
+<!--
+  ПРЕЗЕНТАЦИЯ ДЛЯ КЛИНИКИ (Давид) - RONNIE FILM STUDIO
+  Что это: отдельная страница-презентация, листается вниз по слайдам (на телефоне и ноутбуке).
+  Адрес: https://ronnimaks.github.io/film_studio/clinic/
+  Файлы рядом: primer1.mp4 / primer2.mp4 - примеры роликов, primer1.jpg / primer2.jpg - их заставки.
+  Цены и состав пакетов - блок «ПАКЕТЫ». Контакты - блок «СЛЕДУЮЩИЙ ШАГ».
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Съёмка клиники - RONNIE FILM STUDIO</title>
+<meta property="og:title" content="Фото и видео для новой клиники">
+<meta property="og:description" content="Один съёмочный день - полный комплект материалов для сайта и соцсетей">
+<meta property="og:image" content="https://ronnimaks.github.io/film_studio/clinic/primer1.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--red:#e50914;--bg:#0d0d0d;--card:#171717;--line:#2a2a2a;--muted:#9a9a9a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+body{background:var(--bg);color:#fff;font-family:Montserrat,sans-serif;-webkit-font-smoothing:antialiased}
+.slide{min-height:100vh;min-height:100svh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;padding:72px 20px 56px;position:relative;overflow:hidden}
+.in{max-width:1080px;width:100%;margin:0 auto;position:relative;z-index:2}
+.num{font:700 11px Montserrat;letter-spacing:.35em;color:var(--red);text-transform:uppercase;margin-bottom:18px}
+h1{font:900 clamp(34px,7vw,84px)/1.02 Montserrat;text-transform:uppercase;letter-spacing:-.01em}
+h2{font:800 clamp(26px,4.4vw,52px)/1.08 Montserrat;text-transform:uppercase}
+.lead{font:300 clamp(16px,2vw,21px)/1.55 Montserrat;color:#d0d0d0;margin-top:22px;max-width:640px}
+.red{color:var(--red)}
+
+/* ШАПКА: логотип и счётчик слайдов */
+.top{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:linear-gradient(#0d0d0dee,#0d0d0d00)}
+.logo b{font:900 18px Montserrat;letter-spacing:.12em;display:block}
+.logo span{font:500 9px Montserrat;letter-spacing:.35em;color:var(--red)}
+#cnt{font:600 12px Montserrat;color:var(--muted);letter-spacing:.15em}
+
+/* ОБЛОЖКА */
+.cover{background:#000}
+.cover video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45}
+.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#000d 0,#0006 60%,#0000);z-index:1}
+.down{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:2;font-size:11px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translate(-50%,6px)}}
+
+/* ЧТО СНИМАЕМ: 4 карточки */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px}
+.card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--red);padding:22px 18px;border-radius:4px}
+.card .n{font:900 30px Montserrat;color:#333}
+.card h3{font:700 16px/1.25 Montserrat;margin-top:10px;text-transform:uppercase}
+.card p{font:400 14px/1.5 Montserrat;color:var(--muted);margin-top:10px}
+
+/* ПРИМЕРЫ: два ролика */
+.vids{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+.vid video{width:100%;aspect-ratio:16/9;display:block;background:#000;border-radius:4px;border:1px solid var(--line)}
+.vid p{font:500 13px Montserrat;color:var(--muted);margin-top:10px}
+
+/* КАК ПРОХОДИТ: шаги */
+.steps{margin-top:34px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line)}
+.step{padding:24px 22px 0 0}
+.step b{font:900 44px Montserrat;color:var(--red);display:block}
+.step h3{font:700 17px Montserrat;text-transform:uppercase;margin-top:8px}
+.step p{font:400 14px/1.55 Montserrat;color:var(--muted);margin-top:8px;max-width:300px}
+
+/* ПАКЕТЫ */
+.packs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px;align-items:stretch}
+.pack{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:26px 22px;display:flex;flex-direction:column}
+.pack.best{border:2px solid var(--red);background:#1c0b0c;position:relative}
+.pack .tag{position:absolute;top:-12px;left:22px;background:var(--red);font:800 10px Montserrat;letter-spacing:.2em;padding:5px 10px;text-transform:uppercase}
+.pack h3{font:700 15px Montserrat;text-transform:uppercase;letter-spacing:.06em}
+.pack .price{font:900 clamp(30px,3.4vw,40px) Montserrat;margin:14px 0 16px}
+.pack .price small{font-size:.5em;font-weight:700}
+.pack ul{list-style:none;font:400 14px/1.5 Montserrat;color:#cfcfcf}
+.pack li{padding:7px 0 7px 20px;position:relative;border-top:1px solid #ffffff10}
+.pack li:before{content:"";position:absolute;left:0;top:14px;width:8px;height:8px;background:var(--red)}
+.pack li.plus{color:#fff;font-weight:600}
+
+/* СЛЕДУЮЩИЙ ШАГ */
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:18px 30px;border-radius:40px;font:700 13px Montserrat;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;color:#fff;border:1px solid #555}
+.btn.main{background:var(--red);border-color:var(--red)}
+.ask{margin-top:30px;background:var(--card);border-left:3px solid var(--red);padding:20px 22px;max-width:640px;font:400 15px/1.6 Montserrat;color:#d0d0d0}
+.ask b{color:#fff}
+
+@media (max-width:860px){
+ .grid{grid-template-columns:1fr 1fr}
+ .vids,.packs,.steps{grid-template-columns:1fr}
+ .step{padding:20px 0 4px}
+ .packs{gap:22px}
+ html{scroll-snap-type:none}
+ .top{position:absolute}
+}
+@media (max-width:480px){.grid{grid-template-columns:1fr}.btn{width:100%}}
+</style>
+</head>
+<body>
+
+<header class="top">
+ <a class="logo" href="../" style="color:#fff;text-decoration:none"><b>RONNIE</b><span>FILM STUDIO</span></a>
+ <div id="cnt">01 / 06</div>
+</header>
+
+<!-- ===== 1. ОБЛОЖКА ===== -->
+<section class="slide cover">
+ <video src="primer1.mp4" poster="primer1.jpg" autoplay muted loop playsinline preload="metadata"></video>
+ <div class="in">
+  <div class="num">Предложение для клиники</div>
+  <h1>Фото и видео<br>для новой <span class="red">клиники</span></h1>
+  <p class="lead">За один съёмочный день - полный комплект материалов для сайта, соцсетей и рекламы к открытию.</p>
+ </div>
+ <div class="down">листайте ↓</div>
+</section>
+
+<!-- ===== 2. ЧТО СНИМАЕМ ===== -->
+<section class="slide">
+ <div class="in">
+  <div class="num">02 · Что снимаем</div>
+  <h2>Четыре задачи<br>за один выезд</h2>
+  <div class="grid">
+   <div class="card"><div class="n">01</div><h3>Интерьеры</h3><p>Ресепшен, холлы, кабинеты, фасад. Светлые чистые кадры для сайта и карт.</p></div>
+   <div class="card"><div class="n">02</div><h3>Оборудование</h3><p>КТ, стоматология, хирургия - техника, на которую смотрят пациенты.</p></div>
+   <div class="card"><div class="n">03</div><h3>Врачи и команда</h3><p>Портреты врачей, персонал за работой, общее фото команды.</p></div>
+   <div class="card"><div class="n">04</div><h3>Видео</h3><p>Имиджевый ролик о клинике и короткие вертикальные ролики для соцсетей.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- ===== 3. ПРИМЕРЫ ===== -->
+<section class="slide">
+ <div class="in">
+  <div class="num">03 · Как это выглядит</div>
+  <h2>Примеры роликов<br>для клиник</h2>
+  <div class="vids">
+   <div class="vid"><video src="primer1.mp4" poster="primer1.jpg" controls playsinline preload="none"></video><p>Многопрофильная клиника: ресепшен, кабинеты, КТ, врачи</p></div>
+   <div class="vid"><video src="primer2.mp4" poster="primer2.jpg" controls playsinline preload="none"></video><p>Имиджевый ролик: история пациента и забота врачей</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- ===== 4. КАК ПРОХОДИТ ===== -->
+<section class="slide">
+ <div class="in">
+  <div class="num">04 · Как работаем</div>
+  <h2>Всё берём<br>на себя</h2>
+  <div class="steps">
+   <div class="step"><b>1</b><h3>Подготовка</h3><p>Заранее согласуем помещения, список сотрудников и нужные кадры - чтобы за один выезд снять всё.</p></div>
+   <div class="step"><b>2</b><h3>Съёмочный день</h3><p>Приезжаем командой: фотограф, видеограф, свет. Работаем так, чтобы не мешать клинике.</p></div>
+   <div class="step"><b>3</b><h3>Готовый результат</h3><p>Обработка фотографий и монтаж роликов. Вы получаете готовые файлы для сайта, соцсетей и рекламы.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- ===== 5. ПАКЕТЫ ===== -->
+<section class="slide">
+ <div class="in">
+  <div class="num">05 · Стоимость</div>
+  <h2>Три варианта</h2>
+  <div class="packs">
+   <div class="pack">
+    <h3>Фото клиники</h3>
+    <div class="price">49 000 <small>₽</small></div>
+    <ul><li>30-40 обработанных фотографий</li><li>Интерьеры, кабинеты, оборудование</li><li>Портреты врачей и команды</li></ul>
+   </div>
+   <div class="pack">
+    <h3>Фото + видео</h3>
+    <div class="price">89 000 <small>₽</small></div>
+    <ul><li>Всё из пакета «Фото клиники»</li><li class="plus">Имиджевый ролик 60-90 секунд</li></ul>
+   </div>
+   <div class="pack best">
+    <span class="tag">Рекомендуем</span>
+    <h3>Полный комплект</h3>
+    <div class="price">119 000 <small>₽</small></div>
+    <ul><li>Всё из пакета «Фото + видео»</li><li class="plus">3 вертикальных ролика для соцсетей</li><li>Команда, свет, обработка и монтаж включены</li></ul>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ===== 6. СЛЕДУЮЩИЙ ШАГ ===== -->
+<section class="slide">
+ <div class="in">
+  <div class="num">06 · Следующий шаг</div>
+  <h2>Назначим дату<br><span class="red">съёмки</span></h2>
+  <div class="ask">Чтобы назвать дату и точную стоимость, напишите <b>город</b> и <b>примерную площадь клиники</b>.</div>
+  <div class="btns">
+   <a class="btn main" href="https://t.me/ronnimaks" target="_blank">Написать в Telegram</a>
+   <a class="btn" href="tel:+79961260245">+7 996 126-02-45</a>
+  </div>
+ </div>
+</section>
+
+<script>
+/* СЧЁТЧИК СЛАЙДОВ: показывает, какой слайд сейчас на экране */
+const slides=[...document.querySelectorAll('.slide')], cnt=document.getElementById('cnt');
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const i=slides.indexOf(e.target)+1;cnt.textContent=String(i).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0')}}),{threshold:.5});
+slides.forEach(s=>io.observe(s));
+/* Ролик-пример ставит на паузу другой, чтобы не играли два сразу */
+document.querySelectorAll('.vid video').forEach(v=>v.addEventListener('play',()=>document.querySelectorAll('.vid video').forEach(o=>{if(o!==v)o.pause()})));
+</script>
+</body>
+</html>
